@@ -53,6 +53,15 @@ ul{list-style:none}
 .nav-back:hover{background:rgba(255,255,255,.15)}
 .nav-back svg{width:16px;height:16px}
 .navbar.show-back .nav-back{display:flex}
+.nav-hamburger{
+  display:none;width:36px;height:36px;border-radius:50%;
+  background:rgba(20,20,20,.85);backdrop-filter:blur(10px);
+  border:1px solid rgba(255,255,255,.15);
+  align-items:center;justify-content:center;
+  cursor:pointer;color:#fff;transition:var(--tr);
+}
+.nav-hamburger:hover{background:rgba(255,255,255,.15)}
+.nav-hamburger svg{width:16px;height:16px}
 
 /* Glass pill nav */
 .nav-pill-wrap{
@@ -538,6 +547,49 @@ ul{list-style:none}
 .toast{position:fixed;bottom:32px;left:50%;transform:translateX(-50%) translateY(70px);background:var(--s2);border:1px solid var(--border);border-radius:var(--r);padding:11px 20px;font-size:13.5px;font-weight:500;z-index:9999;transition:transform .3s,opacity .3s;opacity:0;backdrop-filter:blur(10px);white-space:nowrap;pointer-events:none}
 .toast.show{transform:translateX(-50%) translateY(0);opacity:1}
 
+/* ══ SIDE NAV ══ */
+.sidenav-overlay{
+  position:fixed;inset:0;background:rgba(0,0,0,.65);
+  z-index:950;opacity:0;pointer-events:none;
+  transition:opacity .3s;-webkit-tap-highlight-color:transparent;
+}
+.sidenav-overlay.open{opacity:1;pointer-events:auto}
+.sidenav{
+  position:fixed;top:0;left:0;bottom:0;width:280px;
+  background:var(--bg);z-index:960;
+  transform:translateX(-100%);transition:transform .3s cubic-bezier(.4,0,.2,1);
+  display:flex;flex-direction:column;border-right:1px solid var(--border);
+}
+.sidenav.open{transform:translateX(0)}
+.sidenav-header{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:16px 20px;border-bottom:1px solid var(--border);
+}
+.sidenav-logo{font-size:24px;font-weight:900;font-style:italic;color:#fff;letter-spacing:-1.5px}
+.sidenav-close{
+  width:36px;height:36px;border-radius:50%;
+  background:rgba(255,255,255,.08);border:none;
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;color:var(--t3);transition:var(--tr);
+}
+.sidenav-close:hover{background:rgba(255,255,255,.15);color:#fff}
+.sidenav-close svg{width:16px;height:16px}
+.sidenav-body{
+  flex:1;overflow-y:auto;padding:12px 10px;
+  display:flex;flex-direction:column;gap:2px;
+}
+.sidenav-item{
+  display:flex;align-items:center;gap:12px;
+  padding:12px 14px;border-radius:10px;
+  font-size:14px;font-weight:500;color:var(--t2);
+  background:none;border:none;cursor:pointer;transition:var(--tr);
+  text-align:left;width:100%;
+}
+.sidenav-item:hover{background:rgba(255,255,255,.06);color:#fff}
+.sidenav-item.active{background:rgba(255,255,255,.1);color:#fff;font-weight:600}
+.sidenav-item svg{width:20px;height:20px;flex-shrink:0;opacity:.7}
+.sidenav-divider{height:1px;background:var(--border);margin:8px 14px}
+
 /* ══ RESPONSIVE ══ */
 @media(max-width:1100px){
   .det-hero-inner,.det-sections .det-sec-hd,.cast-scroller,.trailers-scroller,.similar-grid,.seasons-tabs,.eps-list,.actor-hero,.filmography-section,.settings-inner{padding-left:36px;padding-right:36px}
@@ -552,23 +604,104 @@ ul{list-style:none}
   .similar-grid{grid-template-columns:repeat(3,1fr)}
   .actor-hero{flex-direction:column;gap:24px}
   .actor-name{font-size:36px}
+  .actor-photo{width:150px;height:150px}
+  .actor-bio{font-size:13px;max-width:100%}
+  .film-sec-title{font-size:17px}
+  .film-tab{padding:6px 16px;font-size:12px}
   .film-grid{grid-template-columns:repeat(3,1fr)}
   .footer{grid-template-columns:1fr 1fr}
   .settings-inner{padding:28px 20px}
 }
+@media(max-width:768px){
+  .nav-hamburger{display:flex}
+  .nav-pill-wrap{display:none}
+  .nav-left{gap:6px}
+  .hero-content{left:20px;bottom:90px}
+  .hero-inds{left:20px}
+  .hero-desc{-webkit-line-clamp:2;-webkit-box-orient:vertical;display:-webkit-box;overflow:hidden}
+  .hero-title{font-size:30px;line-height:1.2}
+  .search-box{width:calc(100vw - 48px)}
+  .browse-header,.filter-bar,.browse-grid{padding-left:20px;padding-right:20px}
+  .nav-logo{font-size:22px}
+  .settings-inner{padding:24px 20px}
+  .det-hero-inner{padding:0 24px 32px}
+  .det-title-text{font-size:38px}
+  .det-right{display:none}
+  .det-desc{max-width:100%}
+  .det-sec-hd{padding:0 24px}
+  .s-overlay{padding-top:90px}
+}
 @media(max-width:600px){
-  .navbar{left:12px;right:12px}
-  .nav-pill-wrap .nav-pill:not(.active){display:none}
-  .nav-pill-wrap .nav-pill[data-id="home"]{display:flex}
-  .hero-content{left:18px;bottom:80px}
-  .hero-inds{left:18px}
-  .det-title-text{font-size:34px}
-  .similar-grid{grid-template-columns:repeat(2,1fr)}
-  .film-grid{grid-template-columns:repeat(2,1fr)}
-  .footer{grid-template-columns:1fr;padding-left:16px;padding-right:16px}
-  .footer-bottom{padding:14px 16px;flex-direction:column;gap:6px}
+  .navbar{left:8px;right:8px;border-radius:16px;padding:6px 8px}
+  .nav-left{gap:4px}
+  .nav-logo{font-size:18px;letter-spacing:-1px}
+  .nav-icon{width:34px;height:34px}
+  .nav-icon svg{width:15px;height:15px}
+  .hero-content{left:16px;bottom:72px;max-width:88%}
+  .hero-inds{left:16px;bottom:36px}
+  .hero-title{font-size:22px}
+  .hero-meta-row{font-size:12px;gap:6px;flex-wrap:wrap}
+  .hero-desc{-webkit-line-clamp:1;font-size:13px}
+  .hero-btns{gap:8px;flex-wrap:wrap}
+  .btn-play-hero{padding:8px 18px;font-size:13px}
+  .hero-btn-circle{width:40px;height:40px}
+  .det-hero-inner{padding:0 16px 24px}
+  .det-title-text{font-size:24px;letter-spacing:-.5px}
+  .det-actions{gap:8px}
+  .btn-play-det{padding:10px 20px;font-size:13px}
+  .btn-download-det{padding:7px 14px;font-size:12px}
+  .btn-icon-det{width:38px;height:38px}
+  .btn-icon-det svg{width:14px;height:14px}
+  .det-genres{font-size:12px}
+  .det-rating-row{font-size:12.5px;gap:6px}
+  .det-desc{font-size:13px;max-width:100%}
+  .det-read-more{font-size:11px}
+  .det-sidebar-row{padding:8px 0;font-size:12px}
+  .det-sec-title{font-size:16px}
+  .det-sec-gap{height:24px}
+  .det-sec-hd{padding:0 16px}
+  .cast-card{width:72px}
+  .cast-av{width:60px;height:60px}
+  .cast-av-init{font-size:20px}
+  .cast-name{font-size:10.5px}
+  .cast-role{font-size:10px}
+  .cast-scroller{gap:12px;padding:0 16px}
+  .trailer-card{width:180px}
+  .trailer-thumb{height:102px}
+  .trailer-label{font-size:12px}
+  .trailers-scroller{padding:0 16px}
+  .similar-grid{grid-template-columns:repeat(2,1fr);gap:8px;padding:0 16px}
+  .sim-title{font-size:12px}
+  .sim-meta{font-size:10px}
+  .seasons-tabs{padding:0 16px;gap:5px}
+  .season-btn{padding:5px 13px;font-size:12px}
+  .eps-list{padding:0 16px;gap:6px}
+  .ep-item{padding:10px;gap:10px}
+  .ep-thumb{width:72px;height:44px;border-radius:6px}
+  .ep-name{font-size:12px}
+  .ep-ov{font-size:11px}
+  .actor-photo{width:110px;height:110px}
+  .actor-name{font-size:28px}
+  .actor-bio{font-size:13px}
+  .film-sec-title{font-size:17px}
+  .film-tab{padding:5px 14px;font-size:12px}
+  .film-grid{grid-template-columns:repeat(2,1fr);gap:10px}
+  .sec-header,.scroll-row{padding-left:14px;padding-right:14px}
+  .scroll-row{gap:10px}
+  .sec-title{font-size:15px}
+  .footer{grid-template-columns:1fr;padding-left:14px;padding-right:14px}
+  .footer-bottom{padding:12px 14px;flex-direction:column;gap:4px;text-align:center;font-size:11px}
   .ep-sidebar{width:100%}
-  .search-box{width:calc(100vw - 24px)}
+  .s-overlay{padding-top:76px}
+  .search-box{width:calc(100vw - 16px);padding:18px 14px}
+  .srch-ttl{font-size:18px}
+  .srch-input{padding:11px 12px 11px 38px;font-size:13.5px}
+  .srch-wrap svg{left:10px;width:15px;height:15px}
+  .srch-result{padding:9px 4px;gap:10px}
+  .srch-result img{width:36px;height:54px}
+  .srch-result-title{font-size:12.5px}
+  .card-std{min-width:120px}
+  .card-sm{min-width:100px}
 }
 
 /* ══ BROWSE PAGES ══ */
@@ -604,19 +737,65 @@ ul{list-style:none}
   .genre-sel{width:100%}
 }
 @media(max-width:600px){
-  .browse-header{padding-left:18px;padding-right:18px}
-  .filter-bar{padding:14px 18px;overflow-x:auto;flex-wrap:nowrap;scrollbar-width:none}
+  .browse-header{padding-left:18px;padding-right:18px;gap:10px}
+  .browse-header h1{font-size:20px;letter-spacing:0}
+  .browse-back{width:30px;height:30px}
+  .browse-back svg{width:14px;height:14px}
+  .filter-bar{padding:12px 14px;overflow-x:auto;flex-wrap:nowrap;scrollbar-width:none;gap:6px}
   .filter-bar::-webkit-scrollbar{display:none}
-  .filter-genre-wrap{flex-shrink:0;margin-left:0}
+  .filter-btn{padding:5px 12px;font-size:12px}
+  .filter-genre-wrap{flex-shrink:0;margin-left:auto;width:auto}
+  .genre-sel{padding:5px 10px;font-size:12px}
   .browse-grid{padding-left:12px;padding-right:12px;grid-template-columns:repeat(2,1fr);gap:10px}
 }
 </style>
 </head>
 <body>
 
+<!-- ════════ SIDE NAV (MOBILE) ════════ -->
+<div class="sidenav-overlay" id="sidenavOverlay" onclick="closeSideNav()"></div>
+<nav class="sidenav" id="sidenav">
+  <div class="sidenav-header">
+    <div class="sidenav-logo">BongoTV</div>
+    <button class="sidenav-close" onclick="closeSideNav()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+  </div>
+  <div class="sidenav-body">
+    <button class="sidenav-item" data-sid="home" onclick="goHome();closeSideNav()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      Home
+    </button>
+    <button class="sidenav-item" data-sid="movies" onclick="openMoviesBrowse();closeSideNav()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="2.18"/><line x1="8" y1="2" x2="8" y2="22"/></svg>
+      Movies
+    </button>
+    <button class="sidenav-item" data-sid="shows" onclick="openShowsBrowse();closeSideNav()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+      Shows
+    </button>
+    <button class="sidenav-item" data-sid="mylist" onclick="openMyList();closeSideNav()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+      My List
+    </button>
+    <div class="sidenav-divider"></div>
+    <button class="sidenav-item" onclick="openSearch();closeSideNav()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      Search
+    </button>
+    <button class="sidenav-item" onclick="openSettings();closeSideNav()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+      Settings
+    </button>
+  </div>
+</nav>
+
 <!-- ════════ FLOATING NAVBAR ════════ -->
 <nav class="navbar" id="navbar">
   <div class="nav-left">
+    <button class="nav-hamburger" id="navHamburger" onclick="openSideNav()" title="Menu">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
     <button class="nav-back" id="navBack" onclick="goBack()">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
     </button>
@@ -1188,10 +1367,16 @@ function setActivePage(page){
     ['npHome','npMovies','npShows','npMyList'].forEach(id=>$(id)?.classList.remove('active'));
   }
   // Highlight the matching nav-pill for browse pages
+  const sid = page==='home'?'home':page==='movies'?'movies':page==='shows'?'shows':page==='mylist'?'mylist':null;
+  document.querySelectorAll('.sidenav-item').forEach(el=>el.classList.toggle('active', el.dataset.sid===sid));
   if(page==='movies') $('npMovies')?.classList.add('active');
   else if(page==='shows') $('npShows')?.classList.add('active');
   else if(page==='mylist') $('npMyList')?.classList.add('active');
 }
+
+/* ══════════ SIDE NAV ══════════ */
+function openSideNav(){ $('sidenav').classList.add('open'); $('sidenavOverlay').classList.add('open'); document.body.style.overflow='hidden'; }
+function closeSideNav(){ $('sidenav').classList.remove('open'); $('sidenavOverlay').classList.remove('open'); document.body.style.overflow=''; }
 
 function goBack(){
   if(pageStack.length>0){
