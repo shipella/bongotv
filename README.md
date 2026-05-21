@@ -1,1 +1,1 @@
-https://shipella.github.io/Bongotv/
+https://shipella.github.io/bongotv/
