@@ -1333,7 +1333,7 @@ body.light-theme .search-trend-label::after{background:rgba(0,0,0,.1)!important}
       </div>
       <div class="settings-about">
         <div style="font-size:18px;font-weight:900;font-style:italic;margin-bottom:6px">BongoTV</div>
-        <div>Version 2.0 · Powered by TMDB &amp;</div>
+        <div>Version 2.0 · Powered by TMDB &amp; VidKing</div>
         <div style="margin-top:4px">Made with ♥ ShipellaStudios®</div>
       </div>
     </div>
@@ -1482,8 +1482,8 @@ const TMDB = 'https://api.themoviedb.org/3';
 const IMG  = 'https://image.tmdb.org/t/p';
 
 const VK = {
-  movie: id      => `https://www.vidking.net/embed/movie/${id}?autoPlay=false&color=e50914`,
-  tv:    (id,s,e)=> `https://www.vidking.net/embed/tv/${id}/${s}/${e}?autoPlay=false&color=e50914&episodeSelector=true`
+  movie: id      => `https://www.vidking.net/embed/movie/${id}?autoPlay=true&color=e50914`,
+  tv:    (id,s,e)=> `https://www.vidking.net/embed/tv/${id}/${s}/${e}?autoPlay=true&nextEpisode=true&color=e50914&episodeSelector=true`
 };
 
 /* ══════════ STATE ══════════ */
@@ -2194,20 +2194,20 @@ async function openActor(id){
       tmdb(`/person/${id}/combined_credits`)
     ]);
 
-    // Photo
-    const photo=imgUrl(person.profile_path,'w342');
-    $('actorPhoto').innerHTML=photo
-      ?`<img src="${photo}" alt="${personName}" style="width:100%;height:100%;object-fit:cover;object-position:top">`
-      :`<div class="actor-photo-init">${esc(person.name?.[0]||'?')}</div>`;
-
     // Bio — escape all API-sourced strings before innerHTML insertion
+    const personName = esc(person.name||'Unknown');
     const dept=esc(person.known_for_department||'Acting');
     const birth=[
       person.birthday?new Date(person.birthday+'T00:00:00').toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'}):null,
       person.place_of_birth
     ].filter(Boolean).map(esc).join(' · ');
-    const personName = esc(person.name||'Unknown');
     const biography = esc(person.biography||'No biography available.');
+
+    // Photo
+    const photo=imgUrl(person.profile_path,'w342');
+    $('actorPhoto').innerHTML=photo
+      ?`<img src="${photo}" alt="${personName}" style="width:100%;height:100%;object-fit:cover;object-position:top">`
+      :`<div class="actor-photo-init">${esc(person.name?.[0]||'?')}</div>`;
 
     $('actorInfo').innerHTML=`
       <div class="actor-dept">${dept}</div>
