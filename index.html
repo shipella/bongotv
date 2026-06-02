@@ -1,9 +1,45 @@
 <!DOCTYPE html>
+<!--
+  ╔══════════════════════════════════════════════════════════╗
+  ║  BongoTV — Stream Movies & TV Shows                     ║
+  ║  Designed & Developed by ShipellaStudios®               ║
+  ║  © 2026 ShipellaStudios. All rights reserved.           ║
+  ║                                                          ║
+  ║  SECURITY NOTICE:                                        ║
+  ║  TMDB and YouTube API keys are embedded client-side.    ║
+  ║  Restrict them by HTTP referrer in your API dashboards: ║
+  ║  • TMDB:    https://www.themoviedb.org/settings/api     ║
+  ║  • Google:  https://console.cloud.google.com/           ║
+  ╚══════════════════════════════════════════════════════════╝
+-->
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>BongoTV – Stream Movies & TV Shows</title>
+
+<!-- ══ CONTENT SECURITY POLICY ══ -->
+<!-- Restricts resource origins to reduce XSS and injection attack surface -->
+<meta http-equiv="Content-Security-Policy" content="
+  default-src 'self' https:;
+  script-src 'self' 'unsafe-inline'
+    https://pagead2.googlesyndication.com
+    https://partner.googleadservices.com
+    https://tpc.googlesyndication.com
+    https://adservice.google.com;
+  style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
+  font-src https://fonts.gstatic.com;
+  img-src 'self' data: https://image.tmdb.org https://img.youtube.com
+    https://media.themoviedb.org https://pagead2.googlesyndication.com;
+  frame-src https://www.youtube.com https://www.vidking.net
+    https://googleads.g.doubleclick.net;
+  connect-src https://api.themoviedb.org https://pagead2.googlesyndication.com;
+">
+
+<!-- ══ GOOGLE ADSENSE ══ -->
+<!-- Placed by ShipellaStudios — non-intrusive ad integration -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1115074714666412" crossorigin="anonymous"></script>
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
@@ -66,6 +102,18 @@ ul{list-style:none}
 /* ══ PAGES ══ */
 .page{display:none;min-height:100vh}
 .page.active{display:block}
+
+/* ══ ADSENSE AD UNITS ══ */
+/* Non-intrusive ad containers — placed by ShipellaStudios */
+.ad-unit{
+  display:flex;flex-direction:column;align-items:center;
+  padding:28px 0 20px;margin:0 0 8px;
+}
+.ad-unit-label{
+  font-size:9px;letter-spacing:1.5px;font-weight:600;
+  color:var(--t4);text-transform:uppercase;margin-bottom:8px;opacity:.6;
+}
+.ad-unit ins{display:block;max-width:728px;width:100%;}
 
 /* ══ FLOATING NAVBAR ══ */
 .navbar{
@@ -1097,6 +1145,18 @@ body.light-theme .search-trend-label::after{background:rgba(0,0,0,.1)!important}
       </div>
       <div class="scroll-row" id="nowPlayingRow"></div>
     </section>
+    <!-- ── AdSense Banner (non-intrusive, placed by ShipellaStudios) ── -->
+    <div class="ad-unit" aria-label="Advertisement">
+      <span class="ad-unit-label">Advertisement</span>
+      <ins class="adsbygoogle"
+        style="display:block"
+        data-ad-client="ca-pub-1115074714666412"
+        data-ad-slot="auto"
+        data-ad-format="auto"
+        data-full-width-responsive="true"></ins>
+      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    </div>
+
     <!-- Top Rated -->
     <section class="section">
       <div class="sec-header">
@@ -1201,7 +1261,9 @@ body.light-theme .search-trend-label::after{background:rgba(0,0,0,.1)!important}
       </button>
       <iframe class="player-iframe" id="playerFrame" src=""
         allow="autoplay; fullscreen; encrypted-media; picture-in-picture"
-        allowfullscreen></iframe>
+        sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-popups-to-escape-sandbox"
+        allowfullscreen
+        referrerpolicy="no-referrer-when-downgrade"></iframe>
     </div>
   </div>
 
@@ -1391,11 +1453,13 @@ body.light-theme .search-trend-label::after{background:rgba(0,0,0,.1)!important}
     <button class="trailer-x" onclick="closeTrailer()">✕</button>
     <iframe class="trailer-iframe" id="trailerFrame" src=""
       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-      allowfullscreen frameborder="0" scrolling="no"></iframe>
+      sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
+      allowfullscreen frameborder="0" scrolling="no"
+      referrerpolicy="no-referrer-when-downgrade"></iframe>
     <div class="trailer-error" id="trailerError">
       <svg viewBox="0 0 24 24" width="42" height="42" fill="none" stroke="var(--t3)" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
       <p>This video cannot be embedded here.</p>
-      <a id="ytFallbackLink" href="#" target="_blank" rel="noopener" class="yt-open-btn">
+      <a id="ytFallbackLink" href="#" target="_blank" rel="noopener noreferrer" class="yt-open-btn">
         <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.55a8.28 8.28 0 0 0 4.86 1.57V6.68a4.85 4.85 0 0 1-1.09.01z"/></svg>
         Watch on YouTube
       </a>
@@ -1406,7 +1470,13 @@ body.light-theme .search-trend-label::after{background:rgba(0,0,0,.1)!important}
 <div class="toast" id="toast"></div>
 
 <script>
-/* ══════════ CONFIG ══════════ */
+/* ══════════ CONFIG ══════════
+ * Designed by ShipellaStudios®
+ * ⚠ SECURITY: These are public-facing client-side API keys.
+ *   Restrict them to your domain via the respective API dashboards:
+ *   TMDB  → https://www.themoviedb.org/settings/api
+ *   Google→ https://console.cloud.google.com/apis/credentials
+ * ══════════════════════════ */
 const TMDB_KEY = '5ec171c6bf26c707ac208ba4bb5b88b5';
 const TMDB = 'https://api.themoviedb.org/3';
 const IMG  = 'https://image.tmdb.org/t/p';
@@ -1431,6 +1501,34 @@ let currentFavId=null, currentFavType='movie', currentFavTitle='', currentFavPos
 let vaTrendingType='movie', vaTopRatedType='movie';
 let browsePage=1, browseLoading=false, browseObserver=null;
 let browseTotalPages=1, browseCategory='', browseGenreId='', browseType='movie';
+
+/* ══════════ SECURITY HELPERS ══════════
+ * escapeHtml / esc — always escape untrusted strings before
+ * inserting into innerHTML to prevent XSS.
+ * Used on all data from localStorage and external APIs.
+ * Authored by ShipellaStudios®
+ * ══════════════════════════════════════ */
+function escapeHtml(str) {
+  if (str == null) return '';
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#x27;');
+}
+const esc = escapeHtml; // short alias for template literals
+
+/* ══════════ localStorage VALIDATION ══════════
+ * Validates items read from localStorage before trusting them.
+ * Prevents XSS if localStorage has been tampered with.
+ * ═══════════════════════════════════════════ */
+function validateStorageItem(item) {
+  if (!item || typeof item !== 'object') return false;
+  if (typeof item.id !== 'number') return false;
+  if (!['movie', 'tv'].includes(item.type || item.media_type)) return false;
+  return true;
+}
 
 /* ══════════ HELPERS ══════════ */
 const $ = id => document.getElementById(id);
@@ -1540,19 +1638,27 @@ function renderCWRow(){
   sec.style.display='';
   const row = $('cwRow'); row.innerHTML='';
   cw.forEach(item => {
+    // Validate and sanitize localStorage data before injecting into DOM
+    if(!validateStorageItem(item)) return;
+    const safeTitle = esc(item.title || 'Unknown');
+    const safePoster = item.poster && /^https:\/\/image\.tmdb\.org\//.test(item.poster) ? item.poster : '';
+    const safeId = Number(item.id);
+    const safeType = item.type === 'tv' ? 'tv' : 'movie';
+    const safeSeason = Math.max(1, parseInt(item.season) || 1);
+    const safeEp = Math.max(1, parseInt(item.episode) || 1);
     const d = document.createElement('div');
     d.className = 'card card-std';
     d.innerHTML = `
       <div class="card-thumb" style="position:relative">
-        ${item.poster ? `<img class="card-img" src="${item.poster}" alt="${item.title}" loading="lazy">` : `<div style="width:100%;height:100%;background:linear-gradient(135deg,#1a1a2e,#16213e);display:flex;align-items:center;justify-content:center;font-size:12px;color:rgba(255,255,255,.2);padding:8px;text-align:center">${item.title}</div>`}
+        ${safePoster ? `<img class="card-img" src="${safePoster}" alt="${safeTitle}" loading="lazy">` : `<div style="width:100%;height:100%;background:linear-gradient(135deg,#1a1a2e,#16213e);display:flex;align-items:center;justify-content:center;font-size:12px;color:rgba(255,255,255,.2);padding:8px;text-align:center">${safeTitle}</div>`}
         <div class="card-ov"><div class="play-circle"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div></div>
         <div class="card-progress-bar"><div class="card-progress-fill" style="width:45%"></div></div>
       </div>
       <div class="card-info">
-        <div class="card-title">${item.title}</div>
-        <div class="card-meta"><span class="card-star">▶</span>${item.type==='tv'?`S${item.season} · E${item.episode}`:'Movie'}</div>
+        <div class="card-title">${safeTitle}</div>
+        <div class="card-meta"><span class="card-star">▶</span>${safeType==='tv'?`S${safeSeason} · E${safeEp}`:'Movie'}</div>
       </div>`;
-    d.onclick = () => openPlayer(item.id, item.type, item.season||1, item.episode||1);
+    d.onclick = () => openPlayer(safeId, safeType, safeSeason, safeEp);
     row.appendChild(d);
   });
 }
@@ -1561,16 +1667,24 @@ function renderCWManage(){
   $('cwCountLabel').textContent = `${cw.length} item${cw.length!==1?'s':''} saved`;
   const list = $('cwManageList');
   if(!cw.length){ list.innerHTML='<p style="font-size:13px;color:var(--t3);padding:14px 0">No items. Watch something to start tracking.</p>'; return; }
-  list.innerHTML = cw.map(item=>`
+  // Validate and escape each item from localStorage before injecting into DOM
+  list.innerHTML = cw.filter(validateStorageItem).map(item=>{
+    const safeTitle = esc(item.title || 'Unknown');
+    const safePoster = item.poster && /^https:\/\/image\.tmdb\.org\//.test(item.poster) ? item.poster : '';
+    const safeId = Number(item.id);
+    const safeType = item.type === 'tv' ? 'tv' : 'movie';
+    const safeSeason = Math.max(1, parseInt(item.season) || 1);
+    const safeEp = Math.max(1, parseInt(item.episode) || 1);
+    return `
     <div class="cw-manage-item">
-      <div class="cw-manage-thumb">${item.poster?`<img src="${item.poster}" alt="">`:`<div style="width:100%;height:100%;background:var(--s2)"></div>`}</div>
+      <div class="cw-manage-thumb">${safePoster?`<img src="${safePoster}" alt="">`:`<div style="width:100%;height:100%;background:var(--s2)"></div>`}</div>
       <div class="cw-manage-info">
-        <div class="cw-manage-title">${item.title}</div>
-        <div class="cw-manage-meta">${item.type==='tv'?`Season ${item.season} · Episode ${item.episode}`:'Movie'}</div>
+        <div class="cw-manage-title">${safeTitle}</div>
+        <div class="cw-manage-meta">${safeType==='tv'?`Season ${safeSeason} · Episode ${safeEp}`:'Movie'}</div>
       </div>
-      <button class="cw-remove" onclick="removeCWItem(${item.id},'${item.type}')">✕</button>
-    </div>`
-  ).join('');
+      <button class="cw-remove" onclick="removeCWItem(${safeId},'${safeType}')">✕</button>
+    </div>`;
+  }).join('');
 }
 
 /* ══════════ NAVIGATION ══════════ */
@@ -1676,9 +1790,10 @@ function makeCard(item, type='movie', wide=false){
   const poster=imgUrl(item.poster_path);
   const back=imgUrl(item.backdrop_path,'w500');
   const thumb=wide?(back||poster):poster;
-  const title=item.title||item.name||'Unknown';
-  const year=(item.release_date||item.first_air_date||'').slice(0,4);
-  const r=rating(item.vote_average);
+  // Escape title — API data may contain special characters
+  const title=esc(item.title||item.name||'Unknown');
+  const year=esc((item.release_date||item.first_air_date||'').slice(0,4));
+  const r=esc(rating(item.vote_average));
   d.innerHTML=`
     <div class="card-thumb">
       ${thumb?`<img class="card-img" src="${thumb}" alt="${title}" loading="lazy">`:`<div style="width:100%;height:100%;background:linear-gradient(135deg,#1a1a2e,#16213e);display:flex;align-items:center;justify-content:center;font-size:11px;color:rgba(255,255,255,.2);padding:8px;text-align:center">${title}</div>`}
@@ -1695,9 +1810,10 @@ function makeTop10(item, rank, type='movie'){
   const d=document.createElement('div');
   d.className='t10-card';
   const poster=imgUrl(item.poster_path);
-  const title=item.title||item.name||'Unknown';
-  const year=(item.release_date||item.first_air_date||'').slice(0,4);
-  const r=rating(item.vote_average);
+  // Escape all API-sourced strings
+  const title=esc(item.title||item.name||'Unknown');
+  const year=esc((item.release_date||item.first_air_date||'').slice(0,4));
+  const r=esc(rating(item.vote_average));
   d.innerHTML=`
     <div class="t10-wrap">
       ${poster?`<img src="${poster}" alt="${title}" loading="lazy">`:`<div style="width:100%;height:100%;background:linear-gradient(135deg,#1a1a2e,#16213e)"></div>`}
@@ -1856,19 +1972,19 @@ async function showDetailPage(id, type){
       tmdb(`${ep}/similar`)
     ]);
 
-    const title   = detail.title||detail.name||'Unknown';
-    const year    = (detail.release_date||detail.first_air_date||'').slice(0,4);
-    const r       = rating(detail.vote_average);
-    const runtime = fmtRuntime(detail.runtime||(detail.episode_run_time?.[0]||0));
+    const title   = esc(detail.title||detail.name||'Unknown');
+    const year    = esc((detail.release_date||detail.first_air_date||'').slice(0,4));
+    const r       = esc(rating(detail.vote_average));
+    const runtime = esc(fmtRuntime(detail.runtime||(detail.episode_run_time?.[0]||0)));
     const genres  = (detail.genres||[]);
     const backdrop= imgUrl(detail.backdrop_path,'original');
     const poster  = imgUrl(detail.poster_path,'w780');
     const cast    = (detail.credits?.cast||credits.cast||[]).slice(0,16);
-    currentFavId=id; currentFavType=type; currentFavTitle=title; currentFavPoster=(detail.poster_path||'');
+    currentFavId=id; currentFavType=type; currentFavTitle=detail.title||detail.name||''; currentFavPoster=(detail.poster_path||'');
     const allVids = (detail.videos?.results||videos.results||[]);
     const trailer = allVids.find(v=>v.type==='Trailer'&&v.site==='YouTube')
                   ||allVids.find(v=>v.site==='YouTube');
-    const directors=(credits.crew||[]).filter(c=>c.job==='Director').map(c=>c.name).join(', ');
+    const directors=esc((credits.crew||[]).filter(c=>c.job==='Director').map(c=>c.name).join(', '));
 
     // SET BACKGROUND (clear, no blur)
     $('detBg').style.backgroundImage=`url('${backdrop||poster}')`;
@@ -1879,13 +1995,16 @@ async function showDetailPage(id, type){
     const logoUrl = bestLogo ? `${IMG}/original${bestLogo.file_path}` : null;
     if(logoUrl) logoCache[`${type}_${id}`]=logoUrl;
 
-    // Genre text
-    const genreStr = genres.map((g,i)=>`${g.name}${i<genres.length-1?'<span class="det-genre-sep"> • </span>':''}`).join('');
+    // Genre text — escape each genre name
+    const genreStr = genres.map((g,i)=>`${esc(g.name)}${i<genres.length-1?'<span class="det-genre-sep"> • </span>':''}`).join('');
 
     // Rating badge
-    const rated = type==='movie'
+    const rated = esc(type==='movie'
       ? (detail.release_dates?.results?.find(r=>r.iso_3166_1==='US')?.release_dates?.[0]?.certification||'')
-      : '';
+      : '');
+
+    // Overview — use textContent after render to avoid XSS
+    const overviewSafe = esc(detail.overview||'No description available.');
 
     // ── LEFT panel ──
     $('detLeft').innerHTML=`
@@ -1918,7 +2037,7 @@ async function showDetailPage(id, type){
         ${detail.vote_count?`<span class="det-tag" style="color:var(--t3);font-size:12px">${(detail.vote_count/1000).toFixed(1)}K votes</span>`:''}
       </div>
       ${directors?`<div class="det-director">Director: <span>${directors}</span></div>`:''}
-      <p class="det-desc" id="detDescEl">${detail.overview||'No description available.'}</p>
+      <p class="det-desc" id="detDescEl">${overviewSafe}</p>
       <button class="det-read-more" id="detReadMoreBtn" onclick="toggleDetDesc()">Read More</button>`;
 
     // ── RIGHT sidebar ──
@@ -1939,10 +2058,12 @@ async function showDetailPage(id, type){
     if(cast.length){
       const castHtml = cast.map(a=>{
         const ap=imgUrl(a.profile_path,'w185');
-        return `<div class="cast-card" onclick="openActor(${a.id})">
-          <div class="cast-av">${ap?`<img src="${ap}" alt="${a.name}" loading="lazy">`:`<div class="cast-av-init">${a.name[0]||'?'}</div>`}</div>
-          <div class="cast-name">${a.name}</div>
-          <div class="cast-role">${a.character||''}</div>
+        const aName = esc(a.name||'');
+        const aChar = esc(a.character||'');
+        return `<div class="cast-card" onclick="openActor(${Number(a.id)})">
+          <div class="cast-av">${ap?`<img src="${ap}" alt="${aName}" loading="lazy">`:`<div class="cast-av-init">${esc(a.name?.[0]||'?')}</div>`}</div>
+          <div class="cast-name">${aName}</div>
+          <div class="cast-role">${aChar}</div>
         </div>`;
       }).join('');
       html+=`<div class="det-sec-gap"></div>
@@ -1965,14 +2086,16 @@ async function showDetailPage(id, type){
     const ytVids = allVids.filter(v=>v.site==='YouTube').slice(0,7);
     if(ytVids.length){
       const tHtml=ytVids.map(v=>{
-        const thumb=`https://img.youtube.com/vi/${v.key}/hqdefault.jpg`;
-        return `<div class="trailer-card" onclick="openTrailerKey('${v.key}')">
+        const thumb=`https://img.youtube.com/vi/${encodeURIComponent(v.key)}/hqdefault.jpg`;
+        // Only allow valid YouTube key format to prevent open-redirect
+        const safeKey = /^[a-zA-Z0-9_-]{6,20}$/.test(v.key) ? v.key : '';
+        return `<div class="trailer-card" onclick="${safeKey?`openTrailerKey('${safeKey}')`:``}">
           <div class="trailer-thumb">
-            <img src="${thumb}" alt="${v.name}" loading="lazy">
+            <img src="${thumb}" alt="${esc(v.name)}" loading="lazy">
             <div class="trailer-ov"><div class="trailer-play-btn"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div></div>
           </div>
-          <div class="trailer-label">${v.name}</div>
-          <div class="trailer-type">${v.type}</div>
+          <div class="trailer-label">${esc(v.name)}</div>
+          <div class="trailer-type">${esc(v.type)}</div>
         </div>`;
       }).join('');
       html+=`<div class="det-sec-gap"></div>
@@ -1985,12 +2108,12 @@ async function showDetailPage(id, type){
     if(sims.length){
       const sHtml=sims.map(s=>{
         const sp=imgUrl(s.poster_path);
-        const st=s.title||s.name;
-        const sy=(s.release_date||s.first_air_date||'').slice(0,4);
-        return `<div class="sim-c" onclick="openDetail(${s.id},'${type}')">
+        const st=esc(s.title||s.name||'');
+        const sy=esc((s.release_date||s.first_air_date||'').slice(0,4));
+        return `<div class="sim-c" onclick="openDetail(${Number(s.id)},'${type}')">
           <div class="sim-thumb">${sp?`<img src="${sp}" alt="${st}" loading="lazy">`:`<div style="width:100%;height:100%;background:linear-gradient(135deg,#1a1a2e,#16213e)"></div>`}</div>
           <div class="sim-title">${st}</div>
-          <div class="sim-meta"><span style="color:var(--gold)">★</span>${rating(s.vote_average)} · ${sy}</div>
+          <div class="sim-meta"><span style="color:var(--gold)">★</span>${esc(rating(s.vote_average))} · ${sy}</div>
         </div>`;
       }).join('');
       html+=`<div class="det-sec-gap"></div>
@@ -2034,17 +2157,19 @@ async function loadDetEps(showId, season, btn){
     list.innerHTML=eps.slice(0,25).map(ep=>{
       const th=imgUrl(ep.still_path,'w400');
       const dur=ep.runtime?`${ep.runtime}m`:'';
-      return `<div class="ep-card" onclick="openPlayer(${showId},'tv',${season},${ep.episode_number})">
+      const epName = esc(ep.name||'Episode '+ep.episode_number);
+      const epOv = esc(ep.overview||'');
+      return `<div class="ep-card" onclick="openPlayer(${Number(ep.show_id||id)},'tv',${Number(season)},${Number(ep.episode_number)})">
         <div class="ep-card-thumb">
           ${th?`<img src="${th}" alt="" loading="lazy">`:`<div style="width:100%;height:100%;background:linear-gradient(135deg,#1a1a2e,#16213e)"></div>`}
-          <div class="ep-card-badge">E${ep.episode_number}</div>
-          ${dur?`<div class="ep-card-dur">${dur}</div>`:''}
+          <div class="ep-card-badge">E${Number(ep.episode_number)}</div>
+          ${dur?`<div class="ep-card-dur">${esc(dur)}</div>`:''}
           <div class="ep-card-play"><div class="ep-card-play-circle"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div></div>
         </div>
         <div class="ep-card-info">
-          <div class="ep-card-num">Episode ${ep.episode_number}</div>
-          <div class="ep-card-name">${ep.name||'Episode '+ep.episode_number}</div>
-          <div class="ep-card-ov">${ep.overview||''}</div>
+          <div class="ep-card-num">Episode ${Number(ep.episode_number)}</div>
+          <div class="ep-card-name">${epName}</div>
+          <div class="ep-card-ov">${epOv}</div>
         </div>
       </div>`;
     }).join('')||'<p style="font-size:13px;color:var(--t3);padding:12px">No episodes found.</p>';
@@ -2072,21 +2197,23 @@ async function openActor(id){
     // Photo
     const photo=imgUrl(person.profile_path,'w342');
     $('actorPhoto').innerHTML=photo
-      ?`<img src="${photo}" alt="${person.name}" style="width:100%;height:100%;object-fit:cover;object-position:top">`
-      :`<div class="actor-photo-init">${person.name?.[0]||'?'}</div>`;
+      ?`<img src="${photo}" alt="${personName}" style="width:100%;height:100%;object-fit:cover;object-position:top">`
+      :`<div class="actor-photo-init">${esc(person.name?.[0]||'?')}</div>`;
 
-    // Bio
-    const dept=person.known_for_department||'Acting';
+    // Bio — escape all API-sourced strings before innerHTML insertion
+    const dept=esc(person.known_for_department||'Acting');
     const birth=[
       person.birthday?new Date(person.birthday+'T00:00:00').toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'}):null,
       person.place_of_birth
-    ].filter(Boolean).join(' · ');
+    ].filter(Boolean).map(esc).join(' · ');
+    const personName = esc(person.name||'Unknown');
+    const biography = esc(person.biography||'No biography available.');
 
     $('actorInfo').innerHTML=`
       <div class="actor-dept">${dept}</div>
-      <h1 class="actor-name">${person.name}</h1>
+      <h1 class="actor-name">${personName}</h1>
       ${birth?`<div class="actor-birth">${birth}</div>`:''}
-      <p class="actor-bio clamped" id="actorBioEl">${person.biography||'No biography available.'}</p>
+      <p class="actor-bio clamped" id="actorBioEl">${biography}</p>
       ${(person.biography||'').length>280?`<button class="read-more-btn" onclick="toggleBio()">Read More</button>`:''}`;
 
     // Filmography
@@ -2333,14 +2460,7 @@ async function openPlayer(id, type='movie', season=1, episode=1){
 function closePlayer(){
   $('playerFrame').src='';
   renderCWRow();
-  if(pageStack.length>0){
-    const prev=pageStack.pop();
-    if(prev.page==='detail'&&prev.id) openDetail(prev.id, prev.type||'movie');
-    else if(prev.page==='movies') setActivePage('movies');
-    else if(prev.page==='shows') setActivePage('shows');
-    else if(prev.page==='mylist') setActivePage('mylist');
-    else setActivePage('home');
-  } else { setActivePage('home'); }
+  setActivePage('home');
 }
 
 
@@ -2451,15 +2571,20 @@ async function tmdbTrailerKey(id, type){
 }
 
 function openTrailerKey(key){
+  // Validate YouTube key format to prevent open-redirect / injection
+  if(!/^[a-zA-Z0-9_-]{6,20}$/.test(key)){
+    console.warn('Invalid trailer key format rejected');
+    return;
+  }
   currentTrailerKey = key;
   const modal=$('trailerModal'), frame=$('trailerFrame'),
         errEl=$('trailerError'), fallback=$('ytFallbackLink');
   frame.style.display='block';
   errEl.classList.remove('show');
-  fallback.href=`https://www.youtube.com/watch?v=${key}`;
+  fallback.href=`https://www.youtube.com/watch?v=${encodeURIComponent(key)}`;
   // origin param prevents Error 153 on most hosts
   const origin = (location.protocol==='file:') ? 'https://bongotv.stream' : location.origin;
-  frame.src=`https://www.youtube.com/embed/${key}?autoplay=1&enablejsapi=1&origin=${encodeURIComponent(origin)}&rel=0&playsinline=1&modestbranding=1&iv_load_policy=3`;
+  frame.src=`https://www.youtube.com/embed/${encodeURIComponent(key)}?autoplay=1&enablejsapi=1&origin=${encodeURIComponent(origin)}&rel=0&playsinline=1&modestbranding=1&iv_load_policy=3`;
   modal.classList.add('open');
   document.body.style.overflow='hidden';
 }
@@ -2501,7 +2626,9 @@ function closeTrailer(){
   document.body.style.overflow='';
 }
 // Detect YouTube embed errors via postMessage
+// Only trust messages originating from YouTube to prevent spoofing
 window.addEventListener('message', e => {
+  if(e.origin!=='https://www.youtube.com') return;
   try {
     const data = typeof e.data==='string' ? JSON.parse(e.data) : e.data;
     if(data?.event==='onError'){
@@ -2830,7 +2957,8 @@ function openMyList(){
 }
 async function renderMyList(){
   const cont=$('mylistContent'), count=$('mylistCount');
-  const favs=getFavs();
+  // Filter out any invalid/tampered localStorage items before use
+  const favs=getFavs().filter(validateStorageItem);
   if(count) count.textContent=`${favs.length} / 15 lists`;
   if(!favs.length){
     cont.innerHTML=`
@@ -2845,16 +2973,20 @@ async function renderMyList(){
       </div>`;
     return;
   }
-  // My List row
+  // My List row — escape all user/API-sourced strings
   let html=`
     <div class="mylist-section">
       <div class="mylist-sec-header"><h2 class="mylist-sec-title">My List</h2></div>
       <div class="mylist-row" id="myListRow">
-        ${favs.map((f,i)=>{
-          const img=f.poster_path?`<img src="${IMG}/w342${f.poster_path}" alt="${f.title||''}" loading="lazy">`:'';
-          return `<div class="mylist-card" onclick="openDetail(${f.id},'${f.media_type}')">
+        ${favs.map((f)=>{
+          const safeId = Number(f.id);
+          const safeType = f.media_type === 'tv' ? 'tv' : 'movie';
+          const safePoster = f.poster_path && /^\/[a-zA-Z0-9/_.-]+$/.test(f.poster_path) ? f.poster_path : '';
+          const safeTitle = esc(f.title || '');
+          const img=safePoster?`<img src="${IMG}/w342${safePoster}" alt="${safeTitle}" loading="lazy">`:'';
+          return `<div class="mylist-card" onclick="openDetail(${safeId},'${safeType}')">
             ${img}
-            <div class="mylist-card-remove" onclick="event.stopPropagation();removeFav(${f.id})">✕</div>
+            <div class="mylist-card-remove" onclick="event.stopPropagation();removeFav(${safeId})">✕</div>
           </div>`;
         }).join('')}
       </div>
@@ -2892,8 +3024,10 @@ async function loadMyListRecs(seedItem){
   } catch {}
 }
 function makeFavCard(f){
-  const img=f.poster_path?`<img src="${IMG}/w185${f.poster_path}" alt="${f.title||''}" loading="lazy">`:'';
-  return `<div class="sim-c" onclick="openDetail(${f.id},'${f.media_type}')"><div class="sim-thumb">${img}</div><div class="sim-title">${f.title||'Unknown'}</div></div>`;
+  const safePoster = f.poster_path && /^\/[a-zA-Z0-9/_.-]+$/.test(f.poster_path) ? f.poster_path : '';
+  const safeTitle = esc(f.title || 'Unknown');
+  const img=safePoster?`<img src="${IMG}/w185${safePoster}" alt="${safeTitle}" loading="lazy">`:'';
+  return `<div class="sim-c" onclick="openDetail(${Number(f.id)},'${f.media_type==='tv'?'tv':'movie'}')"><div class="sim-thumb">${img}</div><div class="sim-title">${safeTitle}</div></div>`;
 }
 
 function openViewAll(type, category, title){
