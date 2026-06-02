@@ -1256,12 +1256,11 @@ body.light-theme .search-trend-label::after{background:rgba(0,0,0,.1)!important}
 
   <!-- LEFT: main video area -->
     <div class="player-frame-wrap" id="playerFrameWrap">
-      <button class="player-back-btn" onclick="closePlayer()" aria-label="Close player">
+      <button class="player-back-btn" onclick="window.location.href='index.html'" aria-label="Close player">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
       </button>
       <iframe class="player-iframe" id="playerFrame" src=""
-        allow="autoplay; fullscreen; encrypted-media; picture-in-picture"
-        sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-popups-to-escape-sandbox"
+        allow="autoplay; fullscreen; encrypted-media; picture-in-picture; clipboard-write; accelerometer; gyroscope; web-share"
         allowfullscreen
         referrerpolicy="no-referrer-when-downgrade"></iframe>
     </div>
@@ -1482,8 +1481,8 @@ const TMDB = 'https://api.themoviedb.org/3';
 const IMG  = 'https://image.tmdb.org/t/p';
 
 const VK = {
-  movie: id      => `https://www.vidking.net/embed/movie/${id}?autoPlay=1&color=e50914`,
-  tv:    (id,s,e)=> `https://www.vidking.net/embed/tv/${id}/${s}/${e}?autoPlay=1&color=e50914&nextEpisode=true&episodeSelector=true`
+  movie: id      => `https://www.vidking.net/embed/movie/${id}?autoPlay=true&color=e50914`,
+  tv:    (id,s,e)=> `https://www.vidking.net/embed/tv/${id}/${s}/${e}?autoPlay=true&nextEpisode=true&color=e50914&episodeSelector=true`
 };
 
 /* ══════════ STATE ══════════ */
